@@ -1,8 +1,11 @@
 display.setStatusBar( display.HiddenStatusBar )
-local background = display.newImage('Background1.jpg')
+local background = display.newImage('Background1.png')
+background.x = display.contentCenterX
+background.y = display.contentCenterY
 local physics = require( "physics" )
 physics.start()  -- Start the physics engine
 physics.setGravity( 0, 0 )
+physics.setDrawMode('hybrid')
 local qx=0
 local qy=0
 local v=0
@@ -50,46 +53,54 @@ local function onPlanetMove (event)
 end
 --------------------------------------------------------------------------------
 --Создание солнца, черной дыры, и планет
-star = display.newImage('star.png', display.contentCenterX+math.random(-50, 50),
-display.contentCenterY+math.random(-50, 50))
+star = display.newImage('star.png', display.contentCenterX+math.random(-20, 20),
+display.contentCenterY+math.random(-20, 20))
 star:scale(0.1, 0.1)
-physics.addBody( star, "static", { isSensor=true, radius=150 } )
+physics.addBody( star, "kinematic", { isSensor=true, radius=125 } )
 
 blackhole = display.newImage('blackhole.png', display.contentCenterX-120, display.contentCenterY-240)
 physics.addBody( blackhole, "static", { isSensor=true, radius=100 } )
 blackhole:scale(0.15, 0.15)
 
 grp = display.newGroup()
-grp.x, grp.y = star.x, star.y
-earth = display.newImage(grp, 'earth.png', star.x-200, star.y-200)
-physics.addBody(earth, 'static', {radius=27, isSensor=true})
+grp.x, grp.y = star.x+math.random(-10, 15), star.y+math.random(15, 20)
+earth = display.newImage(grp, 'earth.png', star.x-250, star.y-250)
+physics.addBody(earth, 'kinematic', {radius=27, isSensor=true})
 earth:scale(0.03, 0.03)
-transition.to(grp,{ time = 10000, rotation = 360, iterations = 500 })
+star.angularVelocity = 50
+transition.to(grp,{ time = 100000, rotation = 10000, iterations = -1 })
 
 
 
 grp2 = display.newGroup()
-grp2.x, grp2.y = star.x, star.y
-mars = display.newImage(grp2, 'mars.png', star.x-150, star.y-150)
-physics.addBody(mars, 'static', {radius=22, isSensor=true})
+grp2.x, grp2.y = star.x+math.random(-10, 15), star.y+math.random(-5, 10)
+mars = display.newImage(grp2, 'mars.png', star.x-120, star.y-120)
+physics.addBody(mars, 'kinematic', {radius=22, isSensor=true})
 mars:scale(0.06, 0.06)
-transition.to(grp2,{ time = 10000, rotation = 500, iterations = 500 })
+transition.to(grp2,{ time = 100000, rotation = 5000, iterations = -1 })
+
+
 
 grp3 = display.newGroup()
-grp3.x, grp3.y = star.x, star.y
-moon = display.newImage(grp3, 'moon.png', star.x-250, star.y-250)
-physics.addBody(moon, 'static', {radius=22, isSensor=true})
+grp3.x, grp3.y = star.x-math.random(10, 15), star.y+math.random(-5, 15)
+moon = display.newImage(grp3, 'moon.png', star.x-200, star.y-200)
+physics.addBody(moon, 'kinematic', {radius=22, isSensor=true})
 moon:scale(0.06, 0.06)
-transition.to(grp3,{ time = 10000, rotation = 200, iterations = 500 })
+transition.to(grp3,{ time = 100000, rotation = 12000, iterations = -1})
 
-
+grp4 = display.newGroup()
+grp4.x, grp4.y = star.x+15, star.y+15
+saturn = display.newImage(grp4, 'saturn.png', star.x-200, star.y-200)
+physics.addBody(saturn, 'kinematic', {radius=22, isSensor=true})
+saturn:scale(0.04, 0.04)
+transition.to(grp4,{ time = 100000, rotation = 19000, iterations = -1})
 
 --------------------------------------------------------------------------------
 --Функция гравитации солнца
 local function starCollision( self, event )
     local objectToPull = event.other
     if ( event.phase == "began" and objectToPull.touchJoint == nil ) then
-         timer.performWithDelay( 10,
+         timer.performWithDelay( 100,
             function()
                 objectToPull.touchJoint = physics.newJoint( "touch", objectToPull, objectToPull.x, objectToPull.y )
                 objectToPull.touchJoint.frequency = 0.4
