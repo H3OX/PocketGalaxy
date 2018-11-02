@@ -9,6 +9,8 @@ physics.setDrawMode('hybrid')
 local qx=0
 local qy=0
 local v=0
+local music = audio.loadStream('music.mp3')
+local playMusic = audio.play(music, {loops = -1})
 
 --------------------------------------------------------------------------------
 --Запуск планеты
