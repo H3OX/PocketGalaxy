@@ -1,11 +1,10 @@
-display.setStatusBar( display.HiddenStatusBar )
-local background = display.newImage('Background1.png')
+local background = display.newImage('Background1.jpg')
+background:scale(1.2, 1.2)
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 local physics = require( "physics" )
 physics.start()  -- Start the physics engine
 physics.setGravity( 0, 0 )
-physics.setDrawMode('hybrid')
 local qx=0
 local qy=0
 local v=0
@@ -63,19 +62,25 @@ end
 star = display.newImage('star.png', display.contentCenterX+math.random(-20, 20),
 display.contentCenterY+math.random(-20, 20))
 star:scale(0.1, 0.1)
-physics.addBody( star, "kinematic", { isSensor=true, radius=130 } )
+physics.addBody( star, "kinematic", { isSensor=true, radius=230 } )
 
 
 
-blackhole = display.newImage('blackhole.png', display.contentCenterX+math.random(-100, 100), display.contentCenterY-240)
+blackhole = display.newImage('blackhole.png', display.contentCenterX+math.random(-200, 200), display.contentCenterY-340)
 physics.addBody( blackhole, "static", { isSensor=true, radius=100 } )
 blackhole:scale(0.15, 0.15)
 
 
 
+blackhole2 = display.newImage('blackhole.png', display.contentCenterX+math.random(-300, 400), display.contentCenterY+math.random(-300, 300))
+physics.addBody( blackhole2, "static", { isSensor=true, radius=200 } )
+blackhole2:scale(0.18, 0.18)
+
+
+
 grp = display.newGroup()
-grp.x, grp.y = star.x+math.random(-10, 15), star.y+math.random(15, 20)
-earth = display.newImage(grp, 'earth.png', star.x-250, star.y-250)
+grp.x, grp.y = star.x+math.random(-40, 55), star.y+math.random(45, 60)
+earth = display.newImage(grp, 'earth.png', star.x-350, star.y-350)
 physics.addBody(earth, 'kinematic', {radius=27, isSensor=true})
 earth:scale(0.03, 0.03)
 star.angularVelocity = 50
@@ -84,8 +89,8 @@ transition.to(grp,{ time = 100000, rotation = 10000, iterations = -1 })
 
 
 grp2 = display.newGroup()
-grp2.x, grp2.y = star.x+math.random(-10, 15), star.y+math.random(-5, 10)
-mars = display.newImage(grp2, 'mars.png', star.x-120, star.y-120)
+grp2.x, grp2.y = star.x+math.random(-30, 65), star.y+math.random(-55, 80)
+mars = display.newImage(grp2, 'mars.png', star.x-320, star.y-320)
 physics.addBody(mars, 'kinematic', {radius=22, isSensor=true})
 mars:scale(0.06, 0.06)
 transition.to(grp2,{ time = 100000, rotation = 5000, iterations = -1 })
@@ -94,7 +99,7 @@ transition.to(grp2,{ time = 100000, rotation = 5000, iterations = -1 })
 
 grp3 = display.newGroup()
 grp3.x, grp3.y = star.x-math.random(10, 15), star.y+math.random(-5, 15)
-moon = display.newImage(grp3, 'moon.png', star.x-200, star.y-200)
+moon = display.newImage(grp3, 'moon.png', star.x-300, star.y-300)
 physics.addBody(moon, 'kinematic', {radius=22, isSensor=true})
 moon:scale(0.06, 0.06)
 transition.to(grp3,{ time = 100000, rotation = 12000, iterations = -1})
@@ -103,7 +108,7 @@ transition.to(grp3,{ time = 100000, rotation = 12000, iterations = -1})
 
 grp4 = display.newGroup()
 grp4.x, grp4.y = star.x+15, star.y+15
-saturn = display.newImage(grp4, 'saturn.png', star.x-200, star.y-200)
+saturn = display.newImage(grp4, 'saturn.png', star.x-380, star.y-380)
 physics.addBody(saturn, 'kinematic', {radius=22, isSensor=true})
 saturn:scale(0.04, 0.04)
 transition.to(grp4,{ time = 100000, rotation = 19000, iterations = -1})
@@ -154,6 +159,8 @@ end
 
 star.collision = starCollision
 blackhole.collision = blackholeCollision
+blackhole2.collision = blackholeCollision
 star:addEventListener( "collision" )
 blackhole:addEventListener( "collision" )
+blackhole2:addEventListener( "collision" )
 Runtime:addEventListener('touch', onPlanetMove)
