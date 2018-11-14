@@ -61,10 +61,10 @@ end
 star = display.newImage('star.png', display.contentCenterX+math.random(-40, 40),
 display.contentCenterY+math.random(-80, 80))
 star:scale(0.2, 0.2)
-physics.addBody( star, "kinematic", { isSensor=true, radius=250 } )
+physics.addBody( star, "kinematic", { isSensor=true, radius=270 } )
 
 blackhole = display.newImage('blackhole.png', display.contentCenterX+math.random(-100, 100), display.contentCenterY-530)
-physics.addBody( blackhole, "static", { isSensor=true, radius=200 } )
+physics.addBody( blackhole, "static", { isSensor=true, radius=220 } )
 blackhole:scale(0.2, 0.2)
 
 grp = display.newGroup()
@@ -108,7 +108,7 @@ local function starCollision( self, event )
          timer.performWithDelay( 100,
             function()
                 objectToPull.touchJoint = physics.newJoint( "touch", objectToPull, objectToPull.x, objectToPull.y )
-                objectToPull.touchJoint.frequency = 0.4
+                objectToPull.touchJoint.frequency = 0.5
                 objectToPull.touchJoint.dampingRatio = 0.0
                 objectToPull.touchJoint:setTarget( self.x, self.y )
             end
@@ -127,7 +127,7 @@ local function blackholeCollision( self, event )
          timer.performWithDelay( 10,
             function()
                 objectToPull.touchJoint = physics.newJoint( "touch", objectToPull, objectToPull.x, objectToPull.y )
-                objectToPull.touchJoint.frequency = 1
+                objectToPull.touchJoint.frequency = 1.1
                 objectToPull.touchJoint.dampingRatio = 0.3
                 objectToPull.touchJoint:setTarget( self.x, self.y )
             end

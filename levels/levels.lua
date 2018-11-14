@@ -5,25 +5,33 @@ local socket = require('socket')
 --Создание новой сцены
 local scene = composer.newScene()
 
---Обработка нажатия на кнопку
-local function goToGame( event )
-		socket.sleep(0.1)
-		composer.gotoScene('levels')
-end
 
---Создание начальной сцены с кнопкой и логотипом
 function scene:create( event )
 	local sceneGroup = self.view
-	local background = display.newImage(sceneGroup, 'Background1.png', display.contentCenterX, display.contentCenterY)
-	local playButton = display.newImage(sceneGroup, 'startgame.png', display.contentCenterX, display.contentCenterY+230)
-	playButton:scale(0.45, 0.45)
-	playButton:addEventListener('tap', goToGame)
-	local logo = display.newImage(sceneGroup, 'logo.png', display.contentCenterX+75, display.contentCenterY-300)
-	logo:scale(0.5, 0.5)
-
+  local background = display.newImage(sceneGroup, 'Background1.png', display.contentCenterX, display.contentCenterY)
+  local level1 = display.newImage('level1button.png', display.contentCenterX, display.contentCenterY-500)
+  local level2 = display.newImage('level2button.png', display.contentCenterX, display.contentCenterY-250)
+  local level3 = display.newImage('level3button.png', display.contentCenterX, display.contentCenterY)
+  local text = display.newText('More levels will be added in the future', display.contentCenterX, display.contentCenterY+300)
+  level1:addEventListener('tap', onTap1)
+  level2:addEventListener('tap', onTap2)
+  level3:addEventListener('tap', onTap3)
 end
 
+function onTap1()
+  socket.sleep(0.1)
+  composer.gotoScene('level1')
+end
 
+function onTap2()
+  socket.sleep(0.1)
+  composer.gotoScene('level2')
+end
+
+function onTap3()
+  socket.sleep(0.1)
+  composer.gotoScene('level3')
+end
 
 
 
